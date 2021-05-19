@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+{% block body %}
+<p> {% for task in queryall %}
+    {{ task.id }} {{ task.task }} {{ task.status }}
+    {% if task.status == True %} 
+    &#9989 
+    <form action="{{ url_for('uncomplete', task_id=task.id ) }}">
+        <input type="submit" value="Uncomplete"></input>
+    </form>
+    
+    {% else %}
+    <form action="{{ url_for('complete', task_id=task.id ) }}">
+        <input type="submit" value="Complete"></input>
+    </form>
+    {% endif %}
+    <form action="{{ url_for('delete', task_id=task.id ) }}">
+        <input type="submit" value="delete"></input>
+    </form>
+    <form action="{{ url_for('update', task_id=task.id ) }}">
+        <input type="submit" value="update"></input>
+    </form>
+
+    {% endfor %} </p>
+{% endblock body %}

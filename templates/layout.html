@@ -1,0 +1,15 @@
+<html>
+    <title> To-do App </title>
+<body>
+<h1>To-do list app</h1>
+<h4>
+    <a href="{{ url_for('index') }}"> Home</a>
+    &nbsp
+    <a href="{{ url_for('newchar') }}">  Add New Character  </a>
+    &nbsp
+    <a href="{{ url_for('newloc') }}">  Add New Location  </a> 
+</h4>
+{% block body %}
+{% endblock body %}
+</body>
+</html>
