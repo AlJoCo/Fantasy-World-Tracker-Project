@@ -23,11 +23,11 @@ class location(db.Model):
     #conflict = db.relationship('conflict', backref='location')
     lname = db.Column(db.String(50), nullable=False)
 
-# class time(db.Model):
-#     cid = db.Column(db.Integer, db.ForeignKey('Character.cid'))
-#     tid = db.Column(db.Integer, primary_key=True)
-#     conflict = db.relationship('conflict', backref='time')
-#     lid = db.Column(db.Integer, db.ForeignKey('location.lid'))
+class time(db.Model):
+    cid = db.Column(db.Integer, db.ForeignKey('Character.cid'))
+    tid = db.Column(db.Integer, primary_key=True)
+    #conflict = db.relationship('conflict', backref='time')
+    lid = db.Column(db.Integer, db.ForeignKey('location.lid'))
 
 # class conflict(db.Model):
 #     conid = db.Column(db.Integer, primary_key=True)
@@ -43,6 +43,9 @@ class lform(FlaskForm):
     lname = StringField("Location Name")
     submit = SubmitField("New Location")
 
+class tform(FlaskForm):
+    tbutton = SubmitField("Additional Stage")
+
 @app.route('/')
 def home():
     return redirect ('new-character')
@@ -54,18 +57,28 @@ def newcharacter():
         new_character = Character(cname = form.cname.data)
         db.session.add(new_character)
         db.session.commit()
-        return redirect('location')
+        return redirect('new-location')
     return render_template('newcharacter.html', form=form)
 
 @app.route('/new-location', methods=["GET", "POST"])
 def newlocation():
     form = lform()
     if form.validate_on_submit():
-        new_location = location(form.lname.data)
+        new_location = location(lname = form.lname.data)
         db.session.add(new_location)
         db.session.commit()
-        return redirect('location')
+        return redirect('new-stage')
     return render_template('newlocation.html', form=form)
+
+@app.route('/new-stage', methods=["GET", "POST"])
+def newstage():
+    form = tform()
+    tqueryall = time.query.all()
+    if form.validate_on_submit():
+        db.session.add()
+        db.session.commit()
+        return redirect('index')
+    return render_template('newstage.html',tallquey=tqueryall, form=form)
 
 @app.route('/update-character/<int:cid>', methods=["GET", "POST"])
 def updatechar(cid):
@@ -107,8 +120,8 @@ def deleteloc(lid):
 
 @app.route('/index', methods=["GET", "POST"])
 def index():
-
     cqueryall = Character.query.all()
+    #lqueryall = location.query.all()
     return render_template('index.html', cqueryall=cqueryall)
 
 if __name__=='__main__':

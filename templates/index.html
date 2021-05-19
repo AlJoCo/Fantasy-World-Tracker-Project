@@ -1,28 +1,17 @@
 {% extends "layout.html" %}
+
 {% block body %}
-<p> {% for cname in cqueryall %}
-    {{ Character.cid }} {{ Character.cname }}
 
-    <form action="{{ url_for('delete-character', Character.cid=Character.cid ) }}">
+    {% for cname in cqueryall %}
+{{ cname.cid }} {{ cname.cname }}
+
+    <form action="{{ url_for("deletechar", cid=cname.cid ) }}">
         <input type="submit" value="delete"></input>
     </form>
-    <form action="{{ url_for('update-character', Character.cid=Character.cid ) }}">
+    <form action="{{ url_for("updatechar", cid=cname.cid ) }}">
         <input type="submit" value="update"></input>
     </form>
 
     {% endfor %}
 
-    {% for lname in lqueryall %}
-    {{ location.lid }} {{ location.lname }}
-
-    <form action="{{ url_for('delete-location', location.lid=location.lid ) }}">
-        <input type="submit" value="delete"></input>
-    </form>
-    <form action="{{ url_for('update-location', location.lid=location.lid ) }}">
-        <input type="submit" value="update"></input>
-    </form>
-
-    {% endfor %}
-
-</p>
 {% endblock body %}

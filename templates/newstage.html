@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+<form method="POST" action="">
+    {{ form.hidden_tag() }}
+    {{ tallquery }}
+    <br>
+    {{ form.submit }}
+</form>
+
+{% endblock body %}
