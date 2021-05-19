@@ -3,7 +3,7 @@
 {% block body %}
 
     {% for cname in cqueryall %}
-{{ cname.cid }} {{ cname.cname }}
+    {{ cname.cid }} {{ cname.cname }}
 
     <form action="{{ url_for("deletechar", cid=cname.cid ) }}">
         <input type="submit" value="delete"></input>
@@ -13,5 +13,17 @@
     </form>
 
     {% endfor %}
+
+    {% for lname in lqueryall %}
+    {{ lname.lid }} {{ lname.lname }}
+    
+        <form action="{{ url_for("deleteloc", lid=lname.lid ) }}">
+            <input type="submit" value="delete"></input>
+        </form>
+        <form action="{{ url_for("updateloc", lid=lname.lid ) }}">
+            <input type="submit" value="update"></input>
+        </form>
+    
+        {% endfor %}
 
 {% endblock body %}
