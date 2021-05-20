@@ -1,10 +1,10 @@
   
-from fwtapp import db,location,Character,time
+from fwtapp import db,location,Characters,time
 
 db.drop_all()
 db.create_all()
 
-dummyentry_c = Character(cname="Strider")
+dummyentry_c = Characters(cname="Strider")
 dummyentry_l = location(lname="Bree")
 dummyentry_t = time()
 db.session.add(dummyentry_c)

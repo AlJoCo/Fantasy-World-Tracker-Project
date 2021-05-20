@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+<form method="POST" action="">
+    {{ form.hidden_tag() }}
+    {% for tid in tqueryall %}
+
+   
+    <br>
+    <h4>Select Character</h4>
+    <br>
+    {{ form.c_dropdown }} {{ form.c_dropdown.label }} 
+    <br>
+    <h4>Select Location</h4>
+    <br>
+    {{ form.l_dropdown }} {{ form.l_dropdown.label }}
+    {{ form.submit }}
+</form>
+<form
+    action="{{ url_for("deletestage", tid=tid.tid ) }}">
+    <input type="submit" value="delete"></input>
+
+</form>
+
+{% endfor %}
+
+{% endblock body %}

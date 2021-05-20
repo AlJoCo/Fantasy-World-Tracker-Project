@@ -9,4 +9,9 @@
     {{ form.submit }}
 </form>
 
+{% for cname in cqueryall %}
+{{ cname.cid }} {{ cname.cname }}
+<br>
+{% endfor %}
+
 {% endblock body %}

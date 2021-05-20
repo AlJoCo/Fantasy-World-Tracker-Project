@@ -9,4 +9,9 @@
     {{ form.submit }}
 </form>
 
+{% for lname in lqueryall %}
+{{ lname.lid }} {{ lname.lname }}
+<br>
+{% endfor %}
+
 {% endblock body %}
