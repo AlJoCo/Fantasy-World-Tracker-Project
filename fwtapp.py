@@ -7,45 +7,38 @@ from os import getenv
 
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = getenv('DATABASE_URI')
+#app.config['SQLALCHEMY_DATABASE_URI'] = getenv('DATABASE_URI')
+#app.config['SQLALCHEMY_DATABASE_URI'] = "mysql+pymysql://root:lotrpassword@34.134.60.2/fwt_db"
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False 
-app.config['SECRET_KEY'] = getenv("SECRET_KEY")
+#app.config['SECRET_KEY'] = getenv("SECRET_KEY")
+app.config['SECRET_KEY'] = "fgsdfsedsegcvbnjyhjtyutwqz"
 
 db = SQLAlchemy(app) 
 
 class Characters(db.Model):
     cid = db.Column(db.Integer, primary_key=True)
     time = db.relationship("time", backref="Characters")
-    #conflict = db.relationship('conflict', backref='Characters')
     cname = db.Column(db.String(50), nullable=False)
 
 class location(db.Model):
     lid = db.Column(db.Integer, primary_key=True)
     time = db.relationship("time", backref="location")
-    #conflict = db.relationship('conflict', backref='location')
     lname = db.Column(db.String(50), nullable=False)
 
 class time(db.Model):    
     tid = db.Column(db.Integer, primary_key=True)
     cid = db.Column(db.Integer, db.ForeignKey("characters.cid"))
-    #cname = db.Column(db.String(50))
-    #conflict = db.relationship('conflict', backref='time')
     lid = db.Column(db.Integer, db.ForeignKey("location.lid"))
-    #lname = db.Column(db.String(50))
-
-# class conflict(db.Model):
-#     conid = db.Column(db.Integer, primary_key=True)
-#     tid = db.Column(db.Integer, db.ForeignKey('time.tid'))
-#     lid = db.Column(db.Integer, db.ForeignKey('location.lid'))
-#     cid = db.Column(db.Integer, db.ForeignKey('Character.cid'))
+    t_increment = db.Column(db.Integer)
 
 class cform(FlaskForm):
     cname = StringField("Character Name")
-    submit = SubmitField("New Character")
+    submit = SubmitField("Enter Character Name")
 
 class lform(FlaskForm):
     lname = StringField("Location Name")
-    submit = SubmitField("New Location")
+    submit = SubmitField("Enter Location Name")
 
 class tform(FlaskForm):
     submit = SubmitField("Additional Stage")
@@ -54,6 +47,7 @@ class jform(FlaskForm):
     submit = SubmitField("Submit Journey")
     l_dropdown = SelectField("Select Location", coerce=int)
     c_dropdown = SelectField("Select Character", coerce=int)
+    t_dropdown = SelectField("Select Time Increment", choices=[1,2,3,4,5,6,7,8,9,10])
 
 @app.route('/')
 def home():
@@ -81,16 +75,6 @@ def newlocation():
         return redirect('new-location')
     return render_template('newlocation.html', lqueryall=lqueryall, form=form)
 
-@app.route('/new-stage', methods=["GET", "POST"])
-def newstage():
-    form = tform()
-    tqueryall = time.query.all()
-    new_stage = time()
-    if form.validate_on_submit():
-        db.session.add(new_stage)
-        db.session.commit()
-        return redirect('new-stage')
-    return render_template('newstage.html',tqueryall=tqueryall, form=form)
 
 @app.route('/journey', methods=["GET", "POST"])
 def journey():
@@ -103,18 +87,18 @@ def journey():
     c_list=[(i.cid,i.cname) for i in cqueryall]
     form.c_dropdown.choices = c_list
     if form.validate_on_submit():
-        journey_increment = time(cid = form.c_dropdown.data, lid = form.l_dropdown.data)
+        journey_increment = time(cid = form.c_dropdown.data, lid = form.l_dropdown.data, t_increment = form.t_dropdown.data)
         db.session.add(journey_increment)
         db.session.commit()
-        print (f"{form.c_dropdown.data} spent some time in {form.l_dropdown.data}")
         return redirect('journey')
-    # elif request.method == "GET":
-    #     
-    #     for i in time.query.all:
-    #         journey_status = time.query.get(i)
-    #         form.c_dropdown.data = journey_status_c
-    #         form.l_dropdown.data = journey_status_l
-    return render_template('journey.html',tqueryall=tqueryall, form=form)
+    return render_template('journey.html',tqueryall=tqueryall, cqueryall=cqueryall, lqueryall=lqueryall, form=form)
+
+@app.route('/encounters', methods=["GET", "POST"])
+def encounters():
+    tqueryall = time.query.all()
+    cqueryall = Characters.query.all()
+    lqueryall = location.query.all()
+    return render_template('encounters.html',tqueryall=tqueryall, cqueryall=cqueryall, lqueryall=lqueryall)
 
 @app.route('/update-character/<int:cid>', methods=["GET", "POST"])
 def updatechar(cid):

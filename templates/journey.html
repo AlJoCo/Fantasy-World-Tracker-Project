@@ -4,7 +4,6 @@
 
 <form method="POST" action="">
     {{ form.hidden_tag() }}
-    {% for tid in tqueryall %}
 
    
     <br>
@@ -15,14 +14,24 @@
     <h4>Select Location</h4>
     <br>
     {{ form.l_dropdown }} {{ form.l_dropdown.label }}
+    <br>
+    <h4>Select Time Increment</h4>
+    <br>
+    {{ form.t_dropdown }} {{ form.t_dropdown.label }}
     {{ form.submit }}
 </form>
+
+{% for tid in tqueryall %}
+ID: {{ tid.tid }} |
+{% for cid in cqueryall %} {% if tid.cid == cid.cid %} {{ cid.cname }} {% endif %} {% endfor %} spends some time in 
+{% for lid in lqueryall %} {% if tid.lid == lid.lid %} {{ lid.lname }} {% endif %}{% endfor %} at increment {{ tid.t_increment }}
+<br>
 <form
     action="{{ url_for("deletestage", tid=tid.tid ) }}">
     <input type="submit" value="delete"></input>
 
 </form>
-
+<br>
 {% endfor %}
 
 {% endblock body %}

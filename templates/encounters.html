@@ -1,0 +1,20 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+Character Encounters:
+<br>
+{% for i in tqueryall %}
+{% for x in tqueryall %}
+{% if i.lid == x.lid and i.t_increment == x.t_increment and i.cid != x.cid %}
+
+{% for cid in cqueryall %} {% if x.cid == cid.cid %} {{ cid.cname }} {% endif %} {% endfor %} has an encounter with 
+{% for cid in cqueryall %} {% if i.cid == cid.cid %} {{ cid.cname }} {% endif %} {% endfor %} in
+
+{% for lid in lqueryall %} {% if x.lid == lid.lid %} {{ lid.lname }} {% endif %}{% endfor %} at time increment {{ x.t_increment }}
+<br>
+{% endif %}
+{% endfor %}
+{% endfor %}
+
+{% endblock body %}
