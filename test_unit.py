@@ -4,12 +4,13 @@ import pytest
 import fwtapp
 from flask_testing import TestCase
 from fwtapp import Characters, location, time, app, db
+from os import getenv
 
 class TestBase(TestCase):
     def create_app(self):
 
         app.config.update(SQLALCHEMY_DATABASE_URI="sqlite:///",
-                SECRET_KEY='rtadfgfgvbpofusnfg',
+                SECRET_KEY=getenv("SECRET_KEY"),
                 DEBUG=True,
                 WTF_CSRF_ENABLED=False)
         return app
@@ -35,6 +36,10 @@ class TestViews(TestBase):
         response = self.client.get(url_for('home'))
         self.assertEqual(response.status_code, 302)
     
+    def test_index_get(self):
+        response = self.client.get(url_for('index'))
+        self.assertEqual(response.status_code, 200)
+
     def test_add_character_get(self):
         response = self.client.get(url_for('newcharacter'))
         self.assertEqual(response.status_code, 200)

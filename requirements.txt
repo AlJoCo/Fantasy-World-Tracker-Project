@@ -1,0 +1,13 @@
+selenium
+flask
+pytest
+flask_testing
+flask-WTF
+flask-SQLAlchemy
+itsdangerous
+Jinja2
+MarkupSafe
+SQLAlchemy
+WTForms
+pymysql
+gunicorn
