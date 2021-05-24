@@ -45,7 +45,8 @@ Using the Pytest module, I was able to achieve 79% unit test coverage for the pr
 Of the tests successfully conducted; the main areas of creation, reading, and parts of editting are covered, which - in combination with user testing, was deemed to sufficiently meet the MVP requirements under the time constraints in place. These test results do, however, only test the raw functionality of the app, and fail to convey the lacklustre UI, which are a definite area for improvement. Further details regarding the tests conducted are available in the HTMLcov folder of the repository.
 
 ## Results: Functionality Achieved
-Informally testing yields much more apparent success - meeting the Must have, Should have, and Could have requirements:
+Informally testing yields much more apparent success - meeting the Must have, Should have, and Could have requirements.
+From any page, the index, add character, add location, create journey, and show encounters pages are available via hyperlink, and there are no restrictions or set order on how to enter the data. If the user so wishes, they can enter a few characters at a time, setting up journeys as they go, and the encounters function will update accordingly, showing new encounters as they appear. Each screen in use is shown as follows:
 ![pic](Images/1.png)
 Adding characters.
 ![pic](Images/2.png)
